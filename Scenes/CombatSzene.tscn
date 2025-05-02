@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://01lg6obhfh4t"]
+
+[ext_resource type="Script" uid="uid://cmn2x1ptosw77" path="res://Scripts/CameraController.gd" id="1_s5mxu"]
+[ext_resource type="Shader" uid="uid://ckjcmnfh7gn2v" path="res://Scenes/Terrain.gdshader" id="2_u8xjh"]
+[ext_resource type="Script" uid="uid://dphmp5xeo2rbf" path="res://Scenes/Grid.gd" id="3_jy761"]
+[ext_resource type="PackedScene" uid="uid://d1oqji5yfw1i7" path="res://Scenes/Tile.tscn" id="4_jy761"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kln2b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rgh2o"]
+render_priority = 0
+shader = ExtResource("2_u8xjh")
+shader_parameter/moss_color = Color(0.2, 0.4, 0.2, 1)
+shader_parameter/noise_scale = 10.0
+shader_parameter/brightness_variation = 0.05
+
+[node name="CombatSzene" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 0)
+script = ExtResource("1_s5mxu")
+
+[node name="Terrain" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("PlaneMesh_kln2b")
+surface_material_override/0 = SubResource("ShaderMaterial_rgh2o")
+
+[node name="HexGrid" type="Node3D" parent="." node_paths=PackedStringArray("terrain")]
+script = ExtResource("3_jy761")
+tile_scene = ExtResource("4_jy761")
+terrain = NodePath("../Terrain")
