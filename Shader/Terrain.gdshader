@@ -2,8 +2,8 @@ shader_type spatial;
 render_mode unshaded;
 
 uniform vec3 moss_color : source_color = vec3(0.1, 0.3, 0.1); // dunkleres Moosgrün
-uniform float noise_scale = 25.0;
-uniform float brightness_variation = 0.08; // deutlichere Unterschiede
+uniform float noise_scale = 40.0;
+uniform float brightness_variation = 0.1; // deutlichere Unterschiede
 
 float rand(vec2 co) {
     return fract(sin(dot(co, vec2(12.9898,78.233))) * 43758.5453);

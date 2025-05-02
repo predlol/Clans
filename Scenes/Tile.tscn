@@ -1,22 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1oqji5yfw1i7"]
+[gd_scene load_steps=2 format=3 uid="uid://cajafa1coixli"]
 
-[ext_resource type="Shader" uid="uid://cca1mdf1umhxg" path="res://Scenes/HexTile.gdshader" id="1_t0yj4"]
+[ext_resource type="Script" uid="uid://b4m1ov8lpcmio" path="res://Scripts/HexTile.gd" id="1_t0yj4"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_iof5j"]
-top_radius = 2.0
-bottom_radius = 2.0
-radial_segments = 6
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_r4md0"]
-render_priority = 0
-shader = ExtResource("1_t0yj4")
-shader_parameter/edge_color = Color(0.2, 0.8, 0.2, 1)
-shader_parameter/edge_thickness = 0.05
-shader_parameter/alpha_strength = 0.6
-
-[node name="Tile" type="Node3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.1, 0)
-mesh = SubResource("CylinderMesh_iof5j")
-surface_material_override/0 = SubResource("ShaderMaterial_r4md0")
+[node name="HexTile" type="MeshInstance3D"]
+script = ExtResource("1_t0yj4")

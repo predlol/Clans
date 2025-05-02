@@ -31,8 +31,9 @@ func generate_grid_in_area(min_x: float, max_x: float, min_z: float, max_z: floa
 			tile.position = pos
 			add_child(tile)
 
+
 func axial_to_world(q: int, r: int) -> Vector3:
-	var radius = tile_radius  
-	var x = radius * sqrt(3) * (q + r * 0.5)
-	var z = radius * 1.5 * r
+	var R = tile_radius
+	var x = 1.5 * R * q
+	var z = sqrt(3) * R * (r + 0.5 * (q % 2))
 	return Vector3(x, 0.05, z)
