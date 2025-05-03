@@ -4,6 +4,15 @@ extends MeshInstance3D
 @export var thickness: float = 0.05
 @export var color: Color = Color(0.1, 0.1, 0.1)
 
+@export var grid_q: int
+@export var grid_r: int
+
+signal tile_clicked(q: int, r: int)
+
+func _input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		tile_clicked.emit(grid_q, grid_r)
+
 func _ready():
 	generate_hex_ring()
 

@@ -4,6 +4,8 @@ extends Node3D
 @export var terrain: Node3D  
 @export var tile_radius: float = 2  
 
+var selected_unit: UnitBase = null  # Setzt du manuell, sobald Unit ausgewählt ist
+
 func _ready():
 	var terrain_size_x = terrain.scale.x * 2.0
 	var terrain_size_z = terrain.scale.z * 2.0
@@ -29,7 +31,19 @@ func generate_grid_in_area(min_x: float, max_x: float, min_z: float, max_z: floa
 				continue
 			var tile = tile_scene.instantiate()
 			tile.position = pos
+
+			tile.grid_q = q
+			tile.grid_r = r
+
+			tile.tile_clicked.connect(_on_tile_clicked)
+			
 			add_child(tile)
+
+
+func _on_tile_clicked(q: int, r: int):
+	if selected_unit:
+		var world_pos = axial_to_world(q, r)
+		selected_unit.move_to_tile(q, r, world_pos)
 
 
 func axial_to_world(q: int, r: int) -> Vector3:

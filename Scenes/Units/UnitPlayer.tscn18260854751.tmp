@@ -1,0 +1,85 @@
+[gd_scene load_steps=5 format=3 uid="uid://di6d1icvsx28c"]
+
+[ext_resource type="PackedScene" uid="uid://5j7lkaq4e15k" path="res://Models/Angry.fbx" id="1_ra5da"]
+[ext_resource type="Script" uid="uid://ct3740jh3av8g" path="res://Scenes/Units/UnitPlayer.gd" id="2_qt6yq"]
+
+[sub_resource type="GDScript" id="GDScript_ra5da"]
+script/source = "extends Area3D
+
+func _input_event(viewport, event, shape_idx):
+	print(\"JA! Area3D hat was empfangen!\")
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ra5da"]
+
+[node name="UnitPlayer" instance=ExtResource("1_ra5da")]
+script = ExtResource("2_qt6yq")
+
+[node name="Skeleton3D" parent="." index="0"]
+bones/0/position = Vector3(0.00793472, 0.90896, -0.00546543)
+bones/0/rotation = Quaternion(-0.00840657, 0.0134201, -0.0433608, 0.998934)
+bones/1/rotation = Quaternion(-0.00875749, -0.0112324, 0.022491, 0.999646)
+bones/2/rotation = Quaternion(0.00647043, -8.2049e-05, 0.0519048, 0.998631)
+bones/3/rotation = Quaternion(0.00654266, 0.00446682, 0.0513032, 0.998652)
+bones/4/rotation = Quaternion(0.0289605, -0.00211134, -0.0189522, 0.999399)
+bones/5/rotation = Quaternion(0.0134586, 0.00571809, -0.0709064, 0.997376)
+bones/7/rotation = Quaternion(-0.663809, -0.362236, 0.504617, -0.416539)
+bones/8/rotation = Quaternion(0.548397, -0.00212035, -0.0704481, 0.833242)
+bones/9/rotation = Quaternion(0.00488578, 0.000169622, 0.126163, 0.991998)
+bones/10/rotation = Quaternion(0.1397, -0.227586, -0.0646432, 0.961514)
+bones/11/rotation = Quaternion(0.105782, 0.281523, 0.236807, 0.923838)
+bones/12/rotation = Quaternion(0.0284039, -0.13436, -0.185284, 0.973042)
+bones/13/rotation = Quaternion(0.0115396, -0.0241937, -0.104708, 0.994142)
+bones/15/rotation = Quaternion(0.0273931, -0.0064561, 0.0219722, 0.999362)
+bones/16/rotation = Quaternion(0.177184, -0.00128989, -0.0367905, 0.983489)
+bones/17/rotation = Quaternion(0.0882558, -5.62485e-05, -0.0117929, 0.996028)
+bones/19/rotation = Quaternion(0.094916, -0.0131873, -0.0214829, 0.995166)
+bones/20/rotation = Quaternion(0.284501, -0.00167993, -0.0517373, 0.957277)
+bones/21/rotation = Quaternion(0.105904, -0.000175193, -0.0149369, 0.994264)
+bones/23/rotation = Quaternion(0.186251, -0.0170027, -0.0545187, 0.980841)
+bones/24/rotation = Quaternion(0.339413, 0.00215689, -0.0609501, 0.938658)
+bones/25/rotation = Quaternion(0.166231, 0.00194337, -0.0306925, 0.985607)
+bones/27/rotation = Quaternion(0.260658, -0.0255229, -0.110831, 0.958709)
+bones/28/rotation = Quaternion(0.380934, -0.00451599, -0.0666156, 0.922188)
+bones/29/rotation = Quaternion(0.174261, -0.00124478, -0.0600692, 0.982865)
+bones/31/rotation = Quaternion(0.613364, -0.409916, 0.559904, 0.377175)
+bones/32/rotation = Quaternion(0.428343, 0.00363969, 0.00486894, 0.903596)
+bones/33/rotation = Quaternion(0.00667194, -0.00100431, -0.154021, 0.988045)
+bones/34/rotation = Quaternion(0.135086, 0.0834201, 0.142067, 0.977041)
+bones/35/rotation = Quaternion(0.10337, -0.276584, -0.242994, 0.923997)
+bones/36/rotation = Quaternion(0.0308074, 0.135262, 0.191287, 0.971681)
+bones/37/rotation = Quaternion(0.0158198, 0.0263609, 0.0569967, 0.997901)
+bones/39/rotation = Quaternion(0.0322121, 0.00749774, -0.033119, 0.998904)
+bones/40/rotation = Quaternion(0.177475, 0.00108401, 0.0336994, 0.983548)
+bones/41/rotation = Quaternion(0.120405, 0.00165133, 0.00426172, 0.992714)
+bones/43/rotation = Quaternion(0.100176, 0.0148413, 0.00727155, 0.994833)
+bones/44/rotation = Quaternion(0.284812, 0.00216878, 0.0501652, 0.957267)
+bones/45/rotation = Quaternion(0.13735, 0.000225244, 0.0203068, 0.990314)
+bones/47/rotation = Quaternion(0.191982, 0.0126643, 0.0406282, 0.980475)
+bones/48/rotation = Quaternion(0.340323, -0.0019066, 0.0531803, 0.938801)
+bones/49/rotation = Quaternion(0.154606, 0.00156373, 0.0131932, 0.987887)
+bones/51/rotation = Quaternion(0.266878, 0.0222989, 0.0975986, 0.958516)
+bones/52/rotation = Quaternion(0.381689, 0.00432458, 0.0605277, 0.922297)
+bones/53/rotation = Quaternion(0.190826, 0.0081798, 0.035549, 0.980946)
+bones/55/rotation = Quaternion(0.107778, 0.158213, 0.973909, -0.121873)
+bones/56/rotation = Quaternion(-0.242763, -0.0834826, 0.0256721, 0.966146)
+bones/57/rotation = Quaternion(0.561924, -0.00102038, -0.00196331, 0.827186)
+bones/58/rotation = Quaternion(0.250377, -0.0800424, 0.020748, 0.964611)
+bones/60/rotation = Quaternion(-0.0330563, 0.000886112, 0.995546, -0.088287)
+bones/61/rotation = Quaternion(-0.115082, 0.0414347, 0.0316144, 0.991988)
+bones/62/rotation = Quaternion(0.59389, -0.086521, -0.120093, 0.790814)
+bones/63/rotation = Quaternion(0.252192, 0.0801502, -0.0209301, 0.964125)
+
+[node name="Ch39" parent="Skeleton3D" index="0"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="AnimationPlayer" parent="." index="1"]
+next/mixamo_com = &"mixamo_com"
+
+[node name="Area3D" type="Area3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+script = SubResource("GDScript_ra5da")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_ra5da")

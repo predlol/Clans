@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://01lg6obhfh4t"]
+
+[ext_resource type="Script" uid="uid://sinmpgr3ci4m" path="res://Scenes/GameController.gd" id="1_0dhp0"]
+[ext_resource type="Script" uid="uid://cmn2x1ptosw77" path="res://Scripts/CameraController.gd" id="1_rq8dt"]
+[ext_resource type="Shader" uid="uid://ckjcmnfh7gn2v" path="res://Shader/Terrain.gdshader" id="2_0dhp0"]
+[ext_resource type="Script" uid="uid://dphmp5xeo2rbf" path="res://Scripts/Grid.gd" id="3_k8hyy"]
+[ext_resource type="PackedScene" uid="uid://cajafa1coixli" path="res://Scenes/Tile.tscn" id="4_vet15"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kln2b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rgh2o"]
+render_priority = 0
+shader = ExtResource("2_0dhp0")
+shader_parameter/moss_color = Color(0.2, 0.4, 0.2, 1)
+shader_parameter/noise_scale = 10.0
+shader_parameter/brightness_variation = 0.05
+
+[sub_resource type="Environment" id="Environment_vet15"]
+ambient_light_energy = 0.1
+
+[node name="CombatSzene" type="Node3D" node_paths=PackedStringArray("grid")]
+script = ExtResource("1_0dhp0")
+grid = NodePath("HexGrid")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642787, 0, -0.642787, 0.766044, 0, 10, 10)
+script = ExtResource("1_rq8dt")
+
+[node name="Terrain" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 30, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_kln2b")
+surface_material_override/0 = SubResource("ShaderMaterial_rgh2o")
+
+[node name="HexGrid" type="Node3D" parent="." node_paths=PackedStringArray("terrain")]
+script = ExtResource("3_k8hyy")
+tile_scene = ExtResource("4_vet15")
+terrain = NodePath("../Terrain")
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
+light_color = Color(1, 0.862745, 0.65098, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vet15")
