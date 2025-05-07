@@ -1,3 +1,4 @@
+#CameraController.gd
 extends Camera3D
 
 var move_speed := 10.0

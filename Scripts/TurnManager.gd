@@ -1,6 +1,6 @@
 # TurnManager.gd
 extends Node
-class_name TurnManager
+
 
 var units: Array[UnitBase] = []
 var current_unit_index: int = -1

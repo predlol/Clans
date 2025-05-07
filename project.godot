@@ -15,6 +15,15 @@ run/main_scene="uid://01lg6obhfh4t"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SignalBus="*res://Scripts/SignalBus.gd"
+TurnManager="*res://Scripts/TurnManager.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
+
 [input]
 
 move_left={

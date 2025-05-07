@@ -2,5 +2,9 @@
 
 [ext_resource type="Script" uid="uid://b4m1ov8lpcmio" path="res://Scripts/HexTile.gd" id="1_t0yj4"]
 
-[node name="HexTile" type="MeshInstance3D"]
+[node name="HexTile" type="Area3D"]
 script = ExtResource("1_t0yj4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
