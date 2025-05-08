@@ -2,7 +2,7 @@
 extends CharacterBody3D
 class_name UnitBase
 
-@export var unit_name: String = "Player1"
+@export var unit_name: String = "Unknown"
 @export var grid_q: int
 @export var grid_r: int
 @export var max_movement_points: int = 4
@@ -33,8 +33,14 @@ func move_to_tile(new_q: int, new_r: int, world_pos: Vector3):
 		grid_q = new_q
 		grid_r = new_r
 		movement_points -= distance
+
 		var tween = create_tween()
 		tween.tween_property(self, "global_position", world_pos, 0.4)
+
+		# Wenn keine Bewegungspunkte mehr → TurnManager benachrichtigen
+		await tween.finished
+		if movement_points <= 0:
+			SignalBus.emit_signal("turn_end", self)
 
 
 func hex_distance(q1: int, r1: int, q2: int, r2: int) -> int:

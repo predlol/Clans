@@ -2,6 +2,7 @@
 extends UnitBase
 
 func _ready():
+	unit_name = "Enemy"
 	is_enemy=false
 	play_idle()
 
