@@ -7,7 +7,7 @@ uniform float alpha_strength = 0.03;      // fast unsichtbar
 
 void fragment() {
     float dist = length(UV - vec2(0.5));
-    
+
     float edge = smoothstep(0.5 - edge_thickness, 0.5, dist) *
                  (1.0 - smoothstep(0.5, 0.5 + edge_thickness, dist));
 

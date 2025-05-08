@@ -952,7 +952,7 @@ _data = {
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1d5tx"]
 
-[node name="UnitPlayer1" type="CharacterBody3D"]
+[node name="UnitPlayer" type="CharacterBody3D"]
 script = ExtResource("1_qt6yq")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]

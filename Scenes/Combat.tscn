@@ -21,7 +21,6 @@ ambient_light_energy = 0.1
 [node name="CombatSzene" type="Node3D" node_paths=PackedStringArray("grid")]
 script = ExtResource("1_0dhp0")
 grid = NodePath("Grid")
-tile_radius = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642787, 0, -0.642787, 0.766044, 0, 10, 10)

@@ -9,15 +9,16 @@ var selected_unit: UnitBase = null
 
 
 func _ready():
-	var unit_player_scene = load("res://Scenes/Units/UnitPlayer.tscn")
-	var player_unit = spawn_unit(unit_player_scene, 0, 0, false)
-	#var unit_enemy_scene = load("res://Scenes/Units/UnitEnemy.tscn")
-	#spawn_unit(unit_enemy_scene, 3, 0, true)
-	
 	SignalBus.connect("unit_selected", Callable(self, "_on_unit_selected"))
 	SignalBus.connect("tile_clicked", Callable(self, "_on_tile_clicked"))
 	
-	TurnManager.start_combat([player_unit])
+	var units: Array[UnitBase] = []
+	var unit_player_scene = load("res://Scenes/Units/UnitPlayer.tscn")
+	var unit_enemy_scene = load("res://Scenes/Units/UnitEnemy.tscn")
+	units.append(spawn_unit(unit_player_scene, 0, 0, false))
+	units.append(spawn_unit(unit_enemy_scene, 3, 0, true))
+	
+	TurnManager.start_combat(units)
 
 
 func _on_unit_selected(unit: UnitBase):
@@ -44,7 +45,6 @@ func spawn_unit(scene: PackedScene, q: int, r: int, is_enemy: bool):
 	unit.grid_q = q
 	unit.grid_r = r
 	unit.is_enemy = is_enemy
-	unit.unit_selected.connect(_on_unit_selected)
 	grid.add_child(unit)
 	unit.global_position = axial_to_world(q, r)
 	return unit

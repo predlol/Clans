@@ -1,8 +1,8 @@
-#UnitEnemy.gd
+#UnitPlayer.gd
 extends UnitBase
 
 func _ready():
-	is_enemy=true
+	is_enemy=false
 	play_idle()
 
 func play_idle():
