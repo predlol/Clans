@@ -419,6 +419,11 @@ _data = {
 [node name="UnitEnemy" type="CharacterBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_p4o5h")
+unit_name = null
+grid_q = null
+grid_r = null
+max_movement_points = null
+initiative = null
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 bones/0/name = "mixamorig_Hips"

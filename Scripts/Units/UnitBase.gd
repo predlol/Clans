@@ -9,11 +9,30 @@ class_name UnitBase
 @export var initiative: int = 10
 
 var movement_points: int = 0
+var max_action_points := 2
+var action_points := 0
 var is_enemy = false
 var is_selected := false
 var selected_unit : UnitBase
 
 signal unit_selected(unit: UnitBase)
+
+var stats := {}
+
+var default_attack := {
+	"name": "Default Attack",
+	"type": "physical",
+	"subtype": "melee",
+	"base_damage": 25,
+	"armor_penetration": 0.2,
+	"stamina_cost": 15,
+	"focus_cost": 0,
+	"range": 1,
+	"accuracy_modifier": 0,
+	"element": null
+}
+func _ready() -> void:
+	stats = StatTemplates.get_template("base")
 
 
 func _input_event(camera: Camera3D, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
@@ -23,8 +42,14 @@ func _input_event(camera: Camera3D, event: InputEvent, position: Vector3, normal
 
 
 func start_turn():
+	action_points = max_action_points
 	movement_points = max_movement_points
-	print(unit_name + " beginnt den Zug mit " + str(movement_points) + " Bewegungspunkten.")
+	print(unit_name + " beginnt den Zug mit %d AP." % action_points)
+
+
+func use_action_point():
+	action_points -= 1
+	print(unit_name + " hat jetzt %d AP." % action_points)
 
 
 func move_to_tile(new_q: int, new_r: int, world_pos: Vector3):
@@ -57,3 +82,22 @@ func select():
 func deselect():
 	is_selected = false
 	# z. B. Highlight ausblenden+
+
+
+func apply_damage(amount: int):
+	stats.hp -= amount
+	if stats.hp <= 0:
+		die()
+
+
+func die():
+	print(unit_name + " has died.")
+	FloatingTextManager.show("DEAD", global_position, Color.DARK_RED)
+
+	# Hier ggfe Animation abspielen oder eine Ragdoll erzeugen
+
+	queue_free()
+
+	# Optional: Informiere andere Systeme
+	if Engine.has_singleton("TurnManager"):
+		TurnManager.on_unit_died(self)

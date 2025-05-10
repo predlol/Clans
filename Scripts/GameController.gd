@@ -7,8 +7,15 @@ class_name GameController
 
 var selected_unit: UnitBase = null
 
+func _unhandled_input(event):
+	if event.is_action_pressed("end_turn"):
+		var current_unit = TurnManager.get_current_unit()
+		SignalBus.emit_signal("turn_end", current_unit)
 
-func _ready():
+func _ready():	
+	FloatingTextManager.current_scene = get_tree().current_scene
+	GridHelper.grid = grid
+
 	SignalBus.connect("unit_selected", Callable(self, "_on_unit_selected"))
 	SignalBus.connect("tile_clicked", Callable(self, "_on_tile_clicked"))
 	
@@ -20,21 +27,50 @@ func _ready():
 	
 	TurnManager.start_combat(units)
 
-
 func _on_unit_selected(unit: UnitBase):
-	selected_unit = unit
-	print("Unit ausgewählt: " + unit.unit_name)
+	if selected_unit and unit.is_enemy:
+		# Angriff auf Gegner
+		if selected_unit.default_attack:
+			if selected_unit.action_points < 1:
+				print("Keine Aktionspunkte für Angriff!")
+				return
 
+			var result = Combat.perform_attack(selected_unit, unit, selected_unit.default_attack)
+			selected_unit.use_action_point()
+
+			if result.success:
+				print("%s trifft %s! Schaden: %d (HP -%d / Armor -%d)" % [
+					selected_unit.unit_name,
+					unit.unit_name,
+					result.damage,
+					result.hp_damage,
+					result.armor_damage
+				])
+			else:
+				print("%s verfehlt %s (Wurf %d / Chance %d%%)" % [
+					selected_unit.unit_name,
+					unit.unit_name,
+					result.hit_roll,
+					result.hit_chance
+				])
+	else:
+		# Eigene Einheit auswählen
+		selected_unit = unit
+		print("Unit ausgewählt: " + unit.unit_name)
 
 func _on_tile_clicked(q: int, r: int):
 	if selected_unit:
+		if selected_unit.action_points < 1:
+			print("Keine Aktionspunkte für Bewegung!")
+			return
+
 		var distance = selected_unit.hex_distance(selected_unit.grid_q, selected_unit.grid_r, q, r)
 		if distance <= selected_unit.movement_points:
 			var world_pos = axial_to_world(q, r)
 			selected_unit.move_to_tile(q, r, world_pos)
+			selected_unit.use_action_point()
 		else:
 			print("Nicht genug Bewegungspunkte.")
-
 
 func spawn_unit(scene: PackedScene, q: int, r: int, is_enemy: bool):
 	var unit = scene.instantiate() as UnitBase
@@ -48,7 +84,6 @@ func spawn_unit(scene: PackedScene, q: int, r: int, is_enemy: bool):
 	grid.add_child(unit)
 	unit.global_position = axial_to_world(q, r)
 	return unit
-
 
 func axial_to_world(q: int, r: int) -> Vector3:
 	var x = 1.5 * tile_radius * q

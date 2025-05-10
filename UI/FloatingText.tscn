@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvp1prchbdspu"]
+
+[ext_resource type="Script" uid="uid://bk0k6qt0i52qo" path="res://Scripts/FloatingText.gd" id="1_ydsml"]
+
+[node name="FloatingText" type="Label3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+script = ExtResource("1_ydsml")
