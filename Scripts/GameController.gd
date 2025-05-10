@@ -27,6 +27,7 @@ func _ready():
 	
 	TurnManager.start_combat(units)
 
+
 func _on_unit_selected(unit: UnitBase):
 	if selected_unit and unit.is_enemy:
 		# Angriff auf Gegner
@@ -56,21 +57,25 @@ func _on_unit_selected(unit: UnitBase):
 	else:
 		# Eigene Einheit auswählen
 		selected_unit = unit
-		print("Unit ausgewählt: " + unit.unit_name)
+		print("Unit ausgewählt: %s (HP: %d / %d | MP: %d / %d | AP: %d / %d)" % [
+			unit.unit_name,
+			unit.hp, unit.stats.max_hp,
+			unit.movement_points, unit.stats.max_movement_points,
+			unit.action_points, unit.stats.max_action_points
+		])
+
+
 
 func _on_tile_clicked(q: int, r: int):
 	if selected_unit:
-		if selected_unit.action_points < 1:
-			print("Keine Aktionspunkte für Bewegung!")
-			return
-
 		var distance = selected_unit.hex_distance(selected_unit.grid_q, selected_unit.grid_r, q, r)
+
 		if distance <= selected_unit.movement_points:
 			var world_pos = axial_to_world(q, r)
 			selected_unit.move_to_tile(q, r, world_pos)
-			selected_unit.use_action_point()
 		else:
 			print("Nicht genug Bewegungspunkte.")
+
 
 func spawn_unit(scene: PackedScene, q: int, r: int, is_enemy: bool):
 	var unit = scene.instantiate() as UnitBase

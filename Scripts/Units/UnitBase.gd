@@ -5,17 +5,18 @@ class_name UnitBase
 @export var unit_name: String = "Unknown"
 @export var grid_q: int
 @export var grid_r: int
-@export var max_movement_points: int = 4
 @export var initiative: int = 10
 
+var hp: int = 0
 var movement_points: int = 0
-var max_action_points := 2
-var action_points := 0
+var action_points: int = 0
 var is_enemy = false
 var is_selected := false
 var selected_unit : UnitBase
 
 signal unit_selected(unit: UnitBase)
+
+var health_bar: HealthBar3D = null
 
 var stats := {}
 
@@ -31,8 +32,12 @@ var default_attack := {
 	"accuracy_modifier": 0,
 	"element": null
 }
+
+
 func _ready() -> void:
-	stats = StatTemplates.get_template("base")
+	var bar_scene = preload("res://UI/HealthBar3D.tscn")
+	health_bar = bar_scene.instantiate()
+	add_child(health_bar)
 
 
 func _input_event(camera: Camera3D, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
@@ -42,9 +47,11 @@ func _input_event(camera: Camera3D, event: InputEvent, position: Vector3, normal
 
 
 func start_turn():
-	action_points = max_action_points
-	movement_points = max_movement_points
-	print(unit_name + " beginnt den Zug mit %d AP." % action_points)
+	action_points = stats.max_action_points
+	movement_points = stats.max_movement_points
+	print("%s beginnt den Zug mit %d MP / %d AP" % [
+		unit_name, movement_points, action_points
+	])
 
 
 func use_action_point():
@@ -85,8 +92,10 @@ func deselect():
 
 
 func apply_damage(amount: int):
-	stats.hp -= amount
-	if stats.hp <= 0:
+	hp -= amount
+	if health_bar:
+		health_bar.set_health(hp, stats.max_hp)  # oder stats.max_hp
+	if hp <= 0:
 		die()
 
 

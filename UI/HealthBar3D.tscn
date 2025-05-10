@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjh8bawfmv32i"]
+
+[ext_resource type="Script" uid="uid://c8n7rpjumpp7l" path="res://Scripts/HealthBar3D.gd" id="1_8hjft"]
+
+[node name="HealthBar3D" type="Node3D"]
+script = ExtResource("1_8hjft")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+font_size = 24
