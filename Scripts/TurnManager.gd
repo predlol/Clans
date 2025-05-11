@@ -70,7 +70,7 @@ func find_closest_player(from_unit: UnitBase) -> UnitBase:
 	var min_dist = INF
 	for u in units:
 		if not u.is_enemy:
-			var dist = from_unit.hex_distance(from_unit.grid_q, from_unit.grid_r, u.grid_q, u.grid_r)
+			var dist = GridHelper.hex_distance(from_unit.grid_q, from_unit.grid_r, u.grid_q, u.grid_r)
 			if dist < min_dist:
 				closest = u
 				min_dist = dist

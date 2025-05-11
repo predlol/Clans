@@ -17,15 +17,17 @@ func _unhandled_input(event):
 func _ready():	
 	FloatingTextManager.current_scene = get_tree().current_scene
 	GridHelper.grid = grid
-
+	grid.generate_fixed_grid(grid.grid_width, grid.grid_height)
+	
 	SignalBus.connect("unit_selected", Callable(self, "_on_unit_selected"))
 	SignalBus.connect("tile_clicked", Callable(self, "_on_tile_clicked"))
 	
 	var units: Array[UnitBase] = []
 	var unit_player_scene = load("res://Scenes/Units/UnitPlayer.tscn")
 	var unit_enemy_scene = load("res://Scenes/Units/UnitEnemy.tscn")
-	units.append(spawn_unit(unit_player_scene, 0, 0, false))
-	units.append(spawn_unit(unit_enemy_scene, 3, 0, true))
+
+	units.append(spawn_unit(unit_player_scene, 5, 5, false))
+	units.append(spawn_unit(unit_enemy_scene, 15, 5, true))
 	
 	TurnManager.start_combat(units)
 
@@ -72,10 +74,12 @@ func _on_unit_selected(unit: UnitBase):
 
 func _on_tile_clicked(q: int, r: int):
 	if selected_unit:
-		var distance = selected_unit.hex_distance(selected_unit.grid_q, selected_unit.grid_r, q, r)
+		print("Tile clicked: (%d, %d)" % [q, r])
+		print("Unit steht auf: (%d, %d)" % [selected_unit.grid_q, selected_unit.grid_r])
+		var distance = GridHelper.hex_distance(selected_unit.grid_q, selected_unit.grid_r, q, r)
 
 		if distance <= selected_unit.movement_points:
-			var world_pos = axial_to_world(q, r)
+			var world_pos = GridHelper.axial_to_world(q, r)
 			selected_unit.move_to_tile(q, r, world_pos)
 		else:
 			print("Nicht genug Bewegungspunkte.")
@@ -85,16 +89,13 @@ func spawn_unit(scene: PackedScene, q: int, r: int, is_enemy: bool):
 	var unit = scene.instantiate() as UnitBase
 	if unit == null:
 		push_error("Fehler: Unit konnte nicht instanziiert werden!")
-		return
+		return null
+
+	grid.add_child(unit)
 
 	unit.grid_q = q
 	unit.grid_r = r
 	unit.is_enemy = is_enemy
-	grid.add_child(unit)
-	unit.global_position = axial_to_world(q, r)
-	return unit
+	unit.set_deferred("global_position", GridHelper.axial_to_world(q, r))
 
-func axial_to_world(q: int, r: int) -> Vector3:
-	var x = 1.5 * tile_radius * q
-	var z = sqrt(3) * tile_radius * (r + 0.5 * (q % 2))
-	return Vector3(x, 0.05, z)
+	return unit

@@ -33,8 +33,13 @@ var default_attack := {
 	"element": null
 }
 
+# UnitBase.gd (Ergänzung)
+func _ready():
+	if has_meta("initial_q") and has_meta("initial_r"):
+		grid_q = get_meta("initial_q")
+		grid_r = get_meta("initial_r")
+		set_deferred("global_position", GridHelper.axial_to_world(grid_q, grid_r))
 
-func _ready() -> void:
 	var bar_scene = preload("res://UI/HealthBar3D.tscn")
 	health_bar = bar_scene.instantiate()
 	add_child(health_bar)
@@ -59,8 +64,8 @@ func use_action_point():
 	print(unit_name + " hat jetzt %d AP." % action_points)
 
 
-func move_to_tile(new_q: int, new_r: int, world_pos: Vector3):
-	var distance = hex_distance(grid_q, grid_r, new_q, new_r)
+func move_to_tile(new_q: int, new_r: int, world_pos: Vector3) -> void:
+	var distance = GridHelper.hex_distance(grid_q, grid_r, new_q, new_r)
 	if distance <= movement_points:
 		grid_q = new_q
 		grid_r = new_r
@@ -68,17 +73,11 @@ func move_to_tile(new_q: int, new_r: int, world_pos: Vector3):
 
 		var tween = create_tween()
 		tween.tween_property(self, "global_position", world_pos, 0.4)
-
-		# Wenn keine Bewegungspunkte mehr → TurnManager benachrichtigen
 		await tween.finished
+
 		if movement_points <= 0:
 			SignalBus.emit_signal("turn_end", self)
 
-
-func hex_distance(q1: int, r1: int, q2: int, r2: int) -> int:
-	var s1 = -q1 - r1
-	var s2 = -q2 - r2
-	return max(abs(q1 - q2), abs(r1 - r2), abs(s1 - s2))
 
 
 func select():

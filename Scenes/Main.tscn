@@ -24,7 +24,7 @@ grid = NodePath("Grid")
 unit_info_panel = NodePath("CanvasLayer/UnitInfoPanel")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642787, 0, -0.642787, 0.766044, 0, 10, 10)
+transform = Transform3D(1, 0, 0, 0, 0.642787, 0.766044, 0, -0.766044, 0.642787, 0, 15, 15)
 current = true
 script = ExtResource("2_v1gob")
 
