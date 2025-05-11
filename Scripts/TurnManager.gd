@@ -40,11 +40,20 @@ func start_combat(all_units: Array[UnitBase]):
 
 
 func next_turn():
+	if units.is_empty():
+		print("Kampf beendet – keine Einheiten mehr.")
+		return
+
 	current_unit_index = (current_unit_index + 1) % units.size()
 	var unit = units[current_unit_index]
-	unit.start_turn()
-	print("---", unit.unit_name, " ist am Zug ---")
-	SignalBus.emit_signal("turn_started", unit)
+
+	if unit:
+		unit.start_turn()
+		print("---", unit.unit_name, " ist am Zug ---")
+		SignalBus.emit_signal("turn_started", unit)
+	else:
+		print("Warnung: Aktive Einheit ist null.")
+
 
 
 func _compare_initiative(a: UnitBase, b: UnitBase) -> bool:

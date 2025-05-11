@@ -1,40 +1,26 @@
-#Grid.gd
 extends Node3D
 
 @export var tile_scene: PackedScene
-@export var terrain: Node3D  
-@export var tile_radius: float = 2  
+@export var tile_radius: float = 2.0
+@export var grid_width: int = 10
+@export var grid_height: int = 10
 
 
 func _ready():
-	var terrain_size_x = terrain.scale.x * 2.0
-	var terrain_size_z = terrain.scale.z * 2.0
-	var half_x = terrain_size_x / 2.0
-	var half_z = terrain_size_z / 2.0
-	generate_grid_in_area(-half_x, half_x, -half_z, half_z)
+	generate_fixed_grid(grid_width, grid_height)
 
 
-func generate_grid_in_area(min_x: float, max_x: float, min_z: float, max_z: float):
+func generate_fixed_grid(width: int, height: int):
 	var radius = tile_radius
-	var hex_width = sqrt(3) * radius
-	var hex_height = 2.0 * radius
+	var center_offset = axial_to_world(width / 2.0, height / 2.0)
 
-	var q_start = int(floor(min_x / (hex_width * 0.75)))
-	var q_end = int(ceil(max_x / (hex_width * 0.75)))
-	var r_start = int(floor(min_z / (hex_height * 0.5)))
-	var r_end = int(ceil(max_z / (hex_height * 0.5)))
-
-	for q in range(q_start, q_end):
-		for r in range(r_start, r_end):
-			var pos = axial_to_world(q, r)
-			if pos.x < min_x or pos.x > max_x or pos.z < min_z or pos.z > max_z:
-				continue
+	for q in range(width):
+		for r in range(height):
+			var pos = axial_to_world(q, r) - center_offset
 			var tile = tile_scene.instantiate()
 			tile.position = pos
-
 			tile.grid_q = q
 			tile.grid_r = r
-			
 			add_child(tile)
 
 

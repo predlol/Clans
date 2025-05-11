@@ -7,6 +7,8 @@ func _ready():
 	is_enemy = true
 	stats = StatTemplates.get_template("enemy_basic")
 	hp = stats.max_hp
+	movement_points = stats.max_movement_points
+	action_points = stats.max_action_points
 	health_bar.position = Vector3(0, 2.0, 0)  # anpassen je nach Modellhöhe
 	health_bar.set_health(hp, stats.max_hp)
 	play_idle()

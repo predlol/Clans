@@ -4,6 +4,8 @@ class_name GameController
 
 @export var grid: Node3D
 @export var tile_radius: float = 2.0
+@export var unit_info_panel: UnitInfoPanel
+
 
 var selected_unit: UnitBase = null
 
@@ -63,6 +65,8 @@ func _on_unit_selected(unit: UnitBase):
 			unit.movement_points, unit.stats.max_movement_points,
 			unit.action_points, unit.stats.max_action_points
 		])
+		if unit_info_panel:
+			unit_info_panel.update_from_unit(unit)
 
 
 

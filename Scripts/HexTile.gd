@@ -27,6 +27,10 @@ func _input_event(camera, event, position, normal, shape_idx):
 		SignalBus.emit_signal("tile_clicked", grid_q, grid_r)
 
 
+func uv_from_pos(pos: Vector3) -> Vector2:
+	return Vector2(pos.x, pos.z) / (outer_radius * 2.0) + Vector2(0.5, 0.5)
+
+
 func generate_hex_ring():
 	var mesh = ArrayMesh.new()
 	var st = SurfaceTool.new()
@@ -35,17 +39,19 @@ func generate_hex_ring():
 	var angle_step = TAU / 6.0
 	var angle_offset = deg_to_rad(30)
 
+	var ring_color = color  # Exportierte Farbe für Flexibilität
+
 	for i in range(6):
 		var a1 = i * angle_step + angle_offset
 		var a2 = ((i + 1) % 6) * angle_step + angle_offset
 
-		var p1_outer = Vector3(outer_radius * cos(a1), 0, outer_radius * sin(a1))
-		var p2_outer = Vector3(outer_radius * cos(a2), 0, outer_radius * sin(a2))
+		var p1_outer = Vector3(outer_radius * cos(a1), 0.01, outer_radius * sin(a1))
+		var p2_outer = Vector3(outer_radius * cos(a2), 0.01, outer_radius * sin(a2))
 
-		var p1_inner = Vector3((outer_radius - thickness) * cos(a1), 0, (outer_radius - thickness) * sin(a1))
-		var p2_inner = Vector3((outer_radius - thickness) * cos(a2), 0, (outer_radius - thickness) * sin(a2))
+		var p1_inner = Vector3((outer_radius - thickness) * cos(a1), 0.01, (outer_radius - thickness) * sin(a1))
+		var p2_inner = Vector3((outer_radius - thickness) * cos(a2), 0.01, (outer_radius - thickness) * sin(a2))
 
-		st.set_color(color)
+		st.set_color(ring_color)
 		st.add_vertex(p1_inner)
 		st.add_vertex(p1_outer)
 		st.add_vertex(p2_outer)
